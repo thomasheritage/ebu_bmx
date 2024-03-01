@@ -56,11 +56,14 @@ list(APPEND MXFpp_sources
     metadata/base/TextBasedObjectBase.cpp
     metadata/base/TextLocatorBase.cpp
     metadata/base/TimecodeComponentBase.cpp
+    metadata/base/TimedEventsAncillaryResourceSubDescriptorBase.cpp
+    metadata/base/TimedEventsTextDescriptorBase.cpp
     metadata/base/TrackBase.cpp
     metadata/base/UTF16TextBasedSetBase.cpp
     metadata/base/UTF8TextBasedSetBase.cpp
     metadata/base/VBIDataDescriptorBase.cpp
     metadata/base/VC2SubDescriptorBase.cpp
+    metadata/base/VideoViewportsSubDescriptorBase.cpp
     metadata/base/WaveAudioDescriptorBase.cpp
 )
 
@@ -122,11 +125,14 @@ list(APPEND MXFpp_headers
     metadata/base/TextBasedObjectBase.h
     metadata/base/TextLocatorBase.h
     metadata/base/TimecodeComponentBase.h
+    metadata/base/TimedEventsAncillaryResourceSubDescriptorBase.h
+    metadata/base/TimedEventsTextDescriptorBase.h
     metadata/base/TrackBase.h
     metadata/base/UTF16TextBasedSetBase.h
     metadata/base/UTF8TextBasedSetBase.h
     metadata/base/VBIDataDescriptorBase.h
     metadata/base/VC2SubDescriptorBase.h
+    metadata/base/VideoViewportsSubDescriptorBase.h
     metadata/base/WaveAudioDescriptorBase.h
 )
 

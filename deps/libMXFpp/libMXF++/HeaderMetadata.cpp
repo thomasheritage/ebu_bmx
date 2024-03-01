@@ -329,6 +329,9 @@ void HeaderMetadata::initialiseObjectFactory()
     REGISTER_CLASS(SADMAudioMetadataSubDescriptor);
     REGISTER_CLASS(MGASoundfieldGroupLabelSubDescriptor);
     REGISTER_CLASS(ContainerConstraintsSubDescriptor);
+    REGISTER_CLASS(TimedEventsAncillaryResourceSubDescriptor);
+    REGISTER_CLASS(TimedEventsTextDescriptor);
+    REGISTER_CLASS(VideoViewportsSubDescriptor);
 
     // Add new classes here
 
