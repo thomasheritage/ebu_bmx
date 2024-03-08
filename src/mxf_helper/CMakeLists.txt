@@ -18,6 +18,7 @@ list(APPEND bmx_sources
     mxf_helper/PictureMXFDescriptorHelper.cpp
     mxf_helper/RDD36MXFDescriptorHelper.cpp
     mxf_helper/SoundMXFDescriptorHelper.cpp
+    mxf_helper/TimedEventsManifest.cpp
     mxf_helper/TimedTextMXFDescriptorHelper.cpp
     mxf_helper/TimedTextMXFResourceProvider.cpp
     mxf_helper/TimedTextManifest.cpp
