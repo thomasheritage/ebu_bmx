@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, British Broadcasting Corporation
+ * Copyright (C) 2024, British Broadcasting Corporation
  * All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,52 +27,57 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BMX_TIMED_TEXT_MXF_DESCRIPTOR_HELPER_H_
-#define BMX_TIMED_TEXT_MXF_DESCRIPTOR_HELPER_H_
-
-#include <vector>
-
-#include <bmx/BMXTypes.h>
-#include <bmx/mxf_helper/TimedDataMXFDescriptorHelper.h>
-#include <bmx/mxf_helper/TimedTextManifest.h>
-
-
-
-namespace bmx
-{
-
-
-class TimedTextMXFDescriptorHelper : public TimedDataMXFDescriptorHelper
-{
-public:
-    static EssenceType IsSupported(mxfpp::FileDescriptor *file_descriptor, mxfUL alternative_ec_label);
-    static bool IsSupported(EssenceType essence_type);
-
-    static TimedTextManifest* CreateManifest(mxfpp::FileDescriptor *file_descriptor);
-
-public:
-    TimedTextMXFDescriptorHelper();
-    virtual ~TimedTextMXFDescriptorHelper();
-
-public:
-    // initialize from existing descriptor
-    virtual void Initialize(mxfpp::FileDescriptor *file_descriptor, uint16_t mxf_version, mxfUL alternative_ec_label);
-
-public:
-    // create and update new descriptor
-    virtual mxfpp::FileDescriptor* CreateFileDescriptor(mxfpp::HeaderMetadata *header_metadata);
-    virtual void UpdateFileDescriptor();
-
-public:
-    virtual uint32_t GetSampleSize() { return 0; }
-
-protected:
-    virtual mxfUL ChooseEssenceContainerUL() const;
-};
-
-
-};
-
-
-
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include <bmx/mxf_helper/TimedDataManifest.h>
+
+using namespace std;
+using namespace bmx;
+
+
+TimedDataAncillaryResource::TimedDataAncillaryResource()
+{
+    stream_id = 0;
+}
+
+TimedDataAncillaryResource::TimedDataAncillaryResource(const TimedDataAncillaryResource &from)
+{
+    filename = from.filename;
+    mime_type = from.mime_type;
+    stream_id = from.stream_id;
+}
+
+TimedDataAncillaryResource::~TimedDataAncillaryResource()
+{
+}
+
+
+TimedDataManifest::TimedDataManifest()
+{
+    Reset();
+}
+
+TimedDataManifest::TimedDataManifest(const TimedDataManifest &from)
+{
+    mFilename = from.mFilename;
+    mStart = from.mStart;
+    for (size_t i = 0; i < from.mAncillaryResources.size(); i++)
+        mAncillaryResources.push_back(from.mAncillaryResources[i]->Clone());
+}
+
+TimedDataManifest::~TimedDataManifest()
+{
+    for (size_t i = 0; i < mAncillaryResources.size(); i++)
+        delete mAncillaryResources[i];
+}
+
+void TimedDataManifest::Reset()
+{
+    mFilename.clear();
+    mStart = 0;
+    for (size_t i = 0; i < mAncillaryResources.size(); i++)
+        delete mAncillaryResources[i];
+    mAncillaryResources.clear();
+}

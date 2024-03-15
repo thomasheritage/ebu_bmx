@@ -30,52 +30,48 @@
 #ifndef BMX_TIMED_EVENTS_MANIFEST_H_
 #define BMX_TIMED_EVENTS_MANIFEST_H_
 
-#include <string>
-#include <vector>
-
-#include <bmx/BMXTypes.h>
+#include <bmx/mxf_helper/TimedDataManifest.h>
 
 
 namespace bmx
 {
 
 
-class TimedEventsAncillaryResource
+class TimedEventsAncillaryResource : public TimedDataAncillaryResource
 {
 public:
     TimedEventsAncillaryResource();
+    TimedEventsAncillaryResource(const TimedEventsAncillaryResource &from);
+    virtual ~TimedEventsAncillaryResource();
 
-    std::string filename;
+    virtual TimedDataAncillaryResource* Clone() const;
+
+public:
     std::string resource_id;
-    std::string mime_type;
-    uint32_t stream_id;
 };
 
 
-class TimedEventsManifest
+class TimedEventsManifest : public TimedDataManifest
 {
 public:
     TimedEventsManifest();
+    TimedEventsManifest(const TimedEventsManifest &from);
     virtual ~TimedEventsManifest();
 
-    std::string GetTimedEventsFilename() const { return mTimedEventsFilename; }
     std::string GetMIMEType() const { return mMIMEType; }
     std::string GetMIMEEncoding() const { return mMIMEEncoding; }
     const std::vector<std::string>& GetEventSchemes() const { return mEventSchemes; }
-    int64_t GetStart() const { return mStart; }
-    const std::vector<TimedEventsAncillaryResource>& GetAncillaryResources() const { return mAncillaryResources; }
     const std::vector<std::string>& GetVideoViewportsAvailableExperiences() const { return mVideoViewportsAvailableExperiences; }
 
 public:
-    void Reset();
+    virtual void Reset();
+
+    virtual TimedDataManifest* Clone() const;
 
 public:
-    std::string mTimedEventsFilename;
     std::string mMIMEType;
     std::string mMIMEEncoding;
     std::vector<std::string> mEventSchemes;
-    int64_t mStart;
-    std::vector<TimedEventsAncillaryResource> mAncillaryResources;
     std::vector<std::string> mVideoViewportsAvailableExperiences;
 };
 

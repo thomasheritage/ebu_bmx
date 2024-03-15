@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, British Broadcasting Corporation
+ * Copyright (C) 2024, British Broadcasting Corporation
  * All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,52 +27,59 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BMX_TIMED_TEXT_MXF_DESCRIPTOR_HELPER_H_
-#define BMX_TIMED_TEXT_MXF_DESCRIPTOR_HELPER_H_
+#ifndef BMX_TIMED_DATA_MANIFEST_H_
+#define BMX_TIMED_DATA_MANIFEST_H_
 
+#include <string>
 #include <vector>
 
 #include <bmx/BMXTypes.h>
-#include <bmx/mxf_helper/TimedDataMXFDescriptorHelper.h>
-#include <bmx/mxf_helper/TimedTextManifest.h>
-
 
 
 namespace bmx
 {
 
 
-class TimedTextMXFDescriptorHelper : public TimedDataMXFDescriptorHelper
+class TimedDataAncillaryResource
 {
 public:
-    static EssenceType IsSupported(mxfpp::FileDescriptor *file_descriptor, mxfUL alternative_ec_label);
-    static bool IsSupported(EssenceType essence_type);
+    TimedDataAncillaryResource();
+    TimedDataAncillaryResource(const TimedDataAncillaryResource &from);
+    virtual ~TimedDataAncillaryResource();
 
-    static TimedTextManifest* CreateManifest(mxfpp::FileDescriptor *file_descriptor);
-
-public:
-    TimedTextMXFDescriptorHelper();
-    virtual ~TimedTextMXFDescriptorHelper();
+    virtual TimedDataAncillaryResource* Clone() const = 0;
 
 public:
-    // initialize from existing descriptor
-    virtual void Initialize(mxfpp::FileDescriptor *file_descriptor, uint16_t mxf_version, mxfUL alternative_ec_label);
+    std::string filename;
+    std::string mime_type;
+    uint32_t stream_id;
+};
+
+
+class TimedDataManifest
+{
+public:
+    TimedDataManifest();
+    TimedDataManifest(const TimedDataManifest &from);
+    virtual ~TimedDataManifest();
+
+    std::string GetFilename() const { return mFilename; }
+    int64_t GetStart() const { return mStart; }
+
+    const std::vector<TimedDataAncillaryResource*>& GetAncillaryResources() const { return mAncillaryResources; }
 
 public:
-    // create and update new descriptor
-    virtual mxfpp::FileDescriptor* CreateFileDescriptor(mxfpp::HeaderMetadata *header_metadata);
-    virtual void UpdateFileDescriptor();
+    virtual void Reset();
+
+    virtual TimedDataManifest* Clone() const = 0;
 
 public:
-    virtual uint32_t GetSampleSize() { return 0; }
-
-protected:
-    virtual mxfUL ChooseEssenceContainerUL() const;
+    std::string mFilename;
+    int64_t mStart;
+    std::vector<TimedDataAncillaryResource*> mAncillaryResources;
 };
 
 
 };
-
-
 
 #endif

@@ -260,7 +260,7 @@ bool TimedEventsXMLManifestParser::Parse(const string &filename, Timecode start_
 
 bool TimedEventsXMLManifestParser::CheckCanReadTimedEventsFile()
 {
-    FILE *file = fopen(mTimedEventsFilename.c_str(), "rb");
+    FILE *file = fopen(mFilename.c_str(), "rb");
     if (!file)
         return false;
 
@@ -301,7 +301,7 @@ void TimedEventsXMLManifestParser::StartElement(const string &ns, const string &
 
         if (name == "file") {
             string path = get_attribute(name, "path", atts);
-            if (!create_abs_file_path(mManifestFilename, path, &mTimedEventsFilename))
+            if (!create_abs_file_path(mManifestFilename, path, &mFilename))
                 throw BMXException("Failed to create absolute path for timed events file '%s'", path.c_str());
 
             mMIMEType = get_attribute(name, "mime_type", atts);
@@ -362,18 +362,22 @@ void TimedEventsXMLManifestParser::StartElement(const string &ns, const string &
         element.name = name;
 
         if (name == "resource") {
-            TimedEventsAncillaryResource resource;
+            TimedEventsAncillaryResource *resource = new TimedEventsAncillaryResource();
+            try {
+                string path = get_attribute(name, "path", atts);
+                if (!create_abs_file_path(mManifestFilename, path, &resource->filename))
+                    throw BMXException("Failed to create absolute path for resource file '%s'", path.c_str());
 
-            string path = get_attribute(name, "path", atts);
-            if (!create_abs_file_path(mManifestFilename, path, &resource.filename))
-                throw BMXException("Failed to create absolute path for resource file '%s'", path.c_str());
+                if (have_attribute("id", atts))
+                    resource->resource_id = get_attribute(name, "id", atts);
+                else
+                    resource->resource_id = strip_path(path);
 
-            if (have_attribute("id", atts))
-                resource.resource_id = get_attribute(name, "id", atts);
-            else
-                resource.resource_id = strip_path(path);
-
-            resource.mime_type = get_attribute(name, "mime_type", atts);
+                resource->mime_type = get_attribute(name, "mime_type", atts);
+            } catch (...) {
+                delete resource;
+                throw;
+            }
 
             mAncillaryResources.push_back(resource);
         } else {
@@ -429,7 +433,7 @@ bool TimedEventsXMLManifestParser::EndElement(const string &ns, const string &na
     START_EXPAT_CALLBACK
 
     if (mParseState.back().name == "manifest") {
-        if (mTimedEventsFilename.empty())
+        if (mFilename.empty())
             throw BMXException("Missing <file> in <manifest> element");
     } else if (mParseState.back().name == "file") {
         if (mEventSchemes.empty())

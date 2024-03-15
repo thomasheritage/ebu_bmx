@@ -38,15 +38,39 @@ using namespace bmx;
 
 
 TimedEventsAncillaryResource::TimedEventsAncillaryResource()
+: TimedDataAncillaryResource()
 {
-    stream_id = 0;
+}
+
+TimedEventsAncillaryResource::TimedEventsAncillaryResource(const TimedEventsAncillaryResource &from)
+: TimedDataAncillaryResource(from)
+{
+    resource_id = from.resource_id;
+}
+
+TimedEventsAncillaryResource::~TimedEventsAncillaryResource()
+{
+}
+
+TimedDataAncillaryResource* TimedEventsAncillaryResource::Clone() const
+{
+    return new TimedEventsAncillaryResource(*this);
 }
 
 
-
 TimedEventsManifest::TimedEventsManifest()
+: TimedDataManifest()
 {
     Reset();
+}
+
+TimedEventsManifest::TimedEventsManifest(const TimedEventsManifest &from)
+: TimedDataManifest(from)
+{
+    mMIMEType = from.mMIMEType;
+    mMIMEEncoding = from.mMIMEEncoding;
+    mEventSchemes = from.mEventSchemes;
+    mVideoViewportsAvailableExperiences = from.mVideoViewportsAvailableExperiences;
 }
 
 TimedEventsManifest::~TimedEventsManifest()
@@ -55,11 +79,14 @@ TimedEventsManifest::~TimedEventsManifest()
 
 void TimedEventsManifest::Reset()
 {
-    mTimedEventsFilename.clear();
+    TimedDataManifest::Reset();
     mMIMEType.clear();
     mMIMEEncoding.clear();
     mEventSchemes.clear();
-    mStart = 0;
-    mAncillaryResources.clear();
     mVideoViewportsAvailableExperiences.clear();
+}
+
+TimedDataManifest* TimedEventsManifest::Clone() const
+{
+    return new TimedEventsManifest(*this);
 }

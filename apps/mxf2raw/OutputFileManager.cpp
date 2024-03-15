@@ -107,8 +107,8 @@ void OutputFileManager::AddTrackFile(size_t track_index, const MXFTrackInfo *tra
             }
             mTrackFiles[track_index].children[c] = file_info;
         }
-    } else if (track_info->essence_type == TIMED_TEXT) {
-        TimedTextManifest *manifest = dynamic_cast<const MXFDataTrackInfo*>(track_info)->timed_text_manifest;
+    } else if (track_info->essence_type == TIMED_TEXT || track_info->essence_type == TIMED_EVENTS) {
+        TimedDataManifest *manifest = dynamic_cast<const MXFDataTrackInfo*>(track_info)->timed_data_manifest;
 
         bmx_snprintf(buffer, sizeof(buffer), "_%s%u.xml", ddef_letter, ddef_count);
 
@@ -122,11 +122,11 @@ void OutputFileManager::AddTrackFile(size_t track_index, const MXFTrackInfo *tra
         }
         mTrackFiles[track_index].children[(uint32_t)(-1)] = file_info;
 
-        std::vector<TimedTextAncillaryResource> &anc_resources = manifest->GetAncillaryResources();
+        const vector<TimedDataAncillaryResource*> &anc_resources = manifest->GetAncillaryResources();
         size_t i;
         for (i = 0; i < anc_resources.size(); i++) {
             bmx_snprintf(buffer, sizeof(buffer), "_%s%u_%d.raw", ddef_letter, ddef_count,
-                         anc_resources[i].stream_id);
+                         anc_resources[i]->stream_id);
 
             FileInfo file_info;
             file_info.filename = mPrefix + buffer;
@@ -136,7 +136,7 @@ void OutputFileManager::AddTrackFile(size_t track_index, const MXFTrackInfo *tra
                           file_info.filename.c_str(), bmx_strerror(errno).c_str());
                 throw false;
             }
-            mTrackFiles[track_index].children[anc_resources[i].stream_id] = file_info;
+            mTrackFiles[track_index].children[anc_resources[i]->stream_id] = file_info;
         }
     } else {
           const char *suffix = ".raw";

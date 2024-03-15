@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019, British Broadcasting Corporation
+ * Copyright (C) 2024, British Broadcasting Corporation
  * All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,49 +27,52 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BMX_TIMED_TEXT_MXF_RESOURCE_PROVIDER_H_
-#define BMX_TIMED_TEXT_MXF_RESOURCE_PROVIDER_H_
+#ifndef BMX_TIMED_EVENTS_MXF_DESCRIPTOR_HELPER_H_
+#define BMX_TIMED_EVENTS_MXF_DESCRIPTOR_HELPER_H_
 
 #include <vector>
-#include <map>
-#include <utility>
 
-#include <libMXF++/MXF.h>
+#include <bmx/BMXTypes.h>
+#include <bmx/mxf_helper/TimedDataMXFDescriptorHelper.h>
+#include <bmx/mxf_helper/TimedEventsManifest.h>
+
 
 
 namespace bmx
 {
 
 
-class TimedTextMXFResourceProvider
+class TimedEventsMXFDescriptorHelper : public TimedDataMXFDescriptorHelper
 {
 public:
-    TimedTextMXFResourceProvider(mxfpp::File *file);
-    ~TimedTextMXFResourceProvider();
+    static EssenceType IsSupported(mxfpp::FileDescriptor *file_descriptor, mxfUL alternative_ec_label);
+    static bool IsSupported(EssenceType essence_type);
 
-    void AddTimedTextResource(const std::vector<std::pair<int64_t, int64_t> > &ranges);
-    void AddAncillaryResource(uint32_t stream_id, const std::vector<std::pair<int64_t, int64_t> > &ranges);
+    static TimedEventsManifest* CreateManifest(mxfpp::FileDescriptor *file_descriptor);
 
 public:
-    int64_t GetTimedTextResourceSize();
-    int64_t GetAncillaryResourceSize(uint32_t stream_id);
+    TimedEventsMXFDescriptorHelper();
+    virtual ~TimedEventsMXFDescriptorHelper();
 
-    void OpenTimedTextResource();
-    void OpenAncillaryResource(uint32_t stream_id);
-    size_t Read(unsigned char *buffer, size_t size);
+public:
+    // initialize from existing descriptor
+    virtual void Initialize(mxfpp::FileDescriptor *file_descriptor, uint16_t mxf_version, mxfUL alternative_ec_label);
 
-private:
-    mxfpp::File *mFile;
-    std::map<uint32_t, std::vector<std::pair<int64_t, int64_t> > > mAncillaryResources;
-    std::vector<std::pair<int64_t, int64_t> > mTimedTextResource;
-    int64_t mRemSize;
-    size_t mRangeIndex;
-    int64_t mRangeRemSize;
-    std::vector<std::pair<int64_t, int64_t> > mOpenRanges;
+public:
+    // create and update new descriptor
+    virtual mxfpp::FileDescriptor* CreateFileDescriptor(mxfpp::HeaderMetadata *header_metadata);
+    virtual void UpdateFileDescriptor();
+
+public:
+    virtual uint32_t GetSampleSize() { return 0; }
+
+protected:
+    virtual mxfUL ChooseEssenceContainerUL() const;
 };
 
 
 };
+
 
 
 #endif
