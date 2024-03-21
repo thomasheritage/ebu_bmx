@@ -22,7 +22,7 @@ set(create_command ${RAW2BMX}
     --clip test
     -f 25
     --dur 100
-    --tt "${TEST_SOURCE_DIR}/../timed_text/manifest_2.txt"
+    --timed-text "${TEST_SOURCE_DIR}/../timed_text/manifest_2.txt"
 )
 
 run_test_a(
