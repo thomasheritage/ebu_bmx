@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EventList xmlns="http://www.smpte-ra.org/ns/2067-206/2023/event-scheme"
+    xmlns:vps="http://www.smpte-ra.org/ns/2067-207/2023/event-scheme"
+    xmlns:ses="http://www.smpte-ra.org/ns/2067-206/2023/event-scheme"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Id>urn:uuid:95020539-bb96-4051-a7c1-ca679bd39ae8</Id>
+    <EditRate>25 1</EditRate>
+    <Objects>
+        <vps:Experience id="X01">
+            <vps:Description>HD portrait view</vps:Description>
+            <vps:Tag>http://www.smpte-ra.org/ns/2067-207/2023/...</vps:Tag>
+            <vps:EventRefs>
+                <EventRef ref="E01" />
+            </vps:EventRefs>
+        </vps:Experience>
+    </Objects>
+    <Events>
+        <vps:ViewportEvent id="E01">
+            <vps:Viewports>
+                <vps:Viewport id="V01">
+                    <vps:Description>9:16 HD video</vps:Description>
+                    <vps:Tag>http://www.smpte-ra.org/ns/2067-207/2023/...</vps:Tag>
+                    <vps:LeftX>1380</vps:LeftX>
+                    <vps:RightX>2460</vps:RightX>
+                    <vps:TopY>1920</vps:TopY>
+                    <vps:BottomY>0</vps:BottomY>
+                    <vps:Rotation>0</vps:Rotation>
+                </vps:Viewport>
+            </vps:Viewports>
+        </vps:ViewportEvent>
+    </Events>
+</EventList>
