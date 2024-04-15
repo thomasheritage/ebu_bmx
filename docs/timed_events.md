@@ -1,6 +1,6 @@
 # Timed Events
 
-The `bmx` Timed Events is a preliminary implementation for embedding text-based timed events in MXF that is based on a draft specification of SMPTE ST 2067-207. This specification forms part of the Interoperable Master Format (IMF) set of SMPTE specifications.
+The `bmx` Timed Events is a preliminary implementation for embedding text-based timed events in MXF that is based on a draft specification of SMPTE ST 2067-206 "Interoperable Master Format — Event-based, Text-based Metadata Plug-in". This specification forms part of the Interoperable Master Format (IMF) set of SMPTE specifications.
 
 The Timed Events are embedded in the same way as [Timed Text](./timed_text.md) and consequently much of the implementation code is shared. The implementation code uses the Timed Data naming when combining the implementation code for Timed Text and Timed Events.
 
@@ -34,7 +34,7 @@ The `<ancillary_resources>` element (*optional*) lists ancillary resource data f
 
 The `video_viewports` element (*optional*) provides metadata for the Video Viewports Simple Scheme. It lists the available experiences identifiers in the `<id>` child element in the `<available_experiences>` element. These identifiers map to elements of the `AvailableExperiencesList` property in the `VideoViewportsSubDescriptor` class.
 
-An example command and manifest is shown below for creating an IMF file containing Video Viewports Timed Events represented in XML. The Timed Events use the "broadcaster-x" scheme that is based on the Simple Scheme (SMPTE ST 2067-206). The Timed Events are positioned at the start of the programme at 10:00:00:00.
+An example command and manifest is shown below for creating an IMF file containing Video Viewports Timed Events represented in XML. The Timed Events use the "broadcaster-x" scheme that is based on the Video Viewports extension scheme (SMPTE ST 2067-207). The Timed Events are positioned at the start of the programme at 10:00:00:00.
 
 The `raw2bmx` command to create the IMF file given a manifest file, `manifest.xml`, and ancillary resource image file, `image-104.png`:
 
