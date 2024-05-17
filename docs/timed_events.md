@@ -38,7 +38,7 @@ An example command and manifest is shown below for creating an IMF file containi
 
 The `raw2bmx` command to create the IMF file given a manifest file, `manifest.xml`, and ancillary resource image file, `image-104.png`:
 
-`raw2bmx -t imf -f 25 --dur 100 --timed-events manifest.xml`
+`raw2bmx -t imf -o {Type}_{fp_uuid}.mxf -f 25 --dur 100 --timed-events manifest.xml`
 
 `manifest.xml`:
 ```xml
