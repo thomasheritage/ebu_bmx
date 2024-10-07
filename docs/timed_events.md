@@ -63,7 +63,9 @@ The `raw2bmx` command to create the IMF file given a manifest file, `manifest.xm
 
 ### Commandline Utilities: `mxf2raw`
 
-The `mxf2raw` utility can be used to show metadata about the Timed Events tracks and for extracting the essence data to files. The Timed Events tracks will have metadata shown similar to the extract below. It shows the properties in the Timed Events data file descriptor and sub-descriptors. A non-zero Timed Events offset, which corresponds to the `start` field in the manifest, is shown in the `timed_events_offset` field in the Track information.
+The `mxf2raw` utility can be used to show metadata about the Timed Events tracks and extract the essence data to files.
+
+The Timed Events tracks will have metadata shown similar to the extract below. It shows the properties in the Timed Events data file descriptor and sub-descriptors. A non-zero Timed Events offset, which corresponds to the `start` field in the manifest, is shown in the `timed_events_offset` field in the Track information.
 
 ```text
   Tracks: (1)
@@ -98,3 +100,13 @@ The `mxf2raw` utility can be used to show metadata about the Timed Events tracks
             Element #0:
               id              : X01
 ```
+
+Using the `--ess-out` or `-p` option will extract a [manifest file](#manifest-file-format), the Timed Events XML file and any ancillary resource files. The file listing example shown below is the result of a run of `mxf2raw -p output timed_events.mxf`.
+
+```
+output_d0_manifest.xml
+output_d0.xml
+output_d0_12.raw
+```
+
+The listed files are for the first MXF data track (`d0`). The manifest is stored in `output_d0_manifest.xml`, the Timed Events in `output_d0.xml` and the image resource in `output_d0_12.raw` (which was stored in the MXF generic stream `12`). The [manifest file](#manifest-file-format) can be used to re-wrap the Timed Events into a new MXF file using `raw2bmx`.

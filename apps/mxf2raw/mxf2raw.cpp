@@ -67,6 +67,7 @@
 #include <bmx/Utils.h>
 #include <bmx/URI.h>
 #include <bmx/Version.h>
+#include <bmx/XMLWriter.h>
 #include <bmx/apps/AppUtils.h>
 #include <bmx/apps/AppMXFFileFactory.h>
 #include <bmx/apps/AppTextInfoWriter.h>
@@ -1666,6 +1667,82 @@ static void write_wave_chna_text(size_t track_index, WaveCHNA *chna, string chna
     log_info("Extracted ADM chna as text to '%s'\n", filename.c_str());
 }
 
+static void write_timed_events_manifest(TimedEventsManifest *manifest, OutputFileManager *output_file_manager, size_t track_index)
+{
+    const string ns = "http://bbc.co.uk/bmx/timed-events/202403";
+
+    // Note that these variables are reused
+    FILE *file;
+    string filename;
+
+    output_file_manager->GetTrackManifestFile(track_index, &file, &filename);
+
+    XMLWriter xml_writer(file, false);
+
+    xml_writer.WriteDocumentStart();
+
+    xml_writer.WriteElementStart(ns, "manifest");
+    xml_writer.DeclareNamespace(ns, "");
+
+    xml_writer.WriteElementStart(ns, "file");
+
+    output_file_manager->GetTrackMainFile(track_index, &file, &filename);
+
+    xml_writer.WriteAttribute(ns, "path", strip_path(filename));
+    xml_writer.WriteAttribute(ns, "mime_type", manifest->GetMIMEType());
+    xml_writer.WriteAttribute(ns, "mime_encoding", manifest->GetMIMEEncoding());
+    if (manifest->GetStart() != 0) {
+        char buffer[32];
+        bmx_snprintf(buffer, sizeof(buffer), "%" PRId64, manifest->GetStart());
+        xml_writer.WriteAttribute(ns, "start", buffer);
+    }
+    xml_writer.WriteElementStart(ns, "event_schemes");
+    const vector<string> &event_schemes = manifest->GetEventSchemes();
+    for (size_t i = 0; i < event_schemes.size(); i++) {
+        xml_writer.WriteElement(ns, "uri", event_schemes[i]);
+    }
+    xml_writer.WriteElementEnd(); // event_schemes
+    xml_writer.WriteElementEnd(); // file
+
+    if (!manifest->GetAncillaryResources().empty()) {
+        xml_writer.WriteElementStart(ns, "ancillary_resources");
+
+        const vector<TimedDataAncillaryResource*> &anc_resources = manifest->GetAncillaryResources();
+        for (size_t i = 0; i < anc_resources.size(); i++) {
+            TimedEventsAncillaryResource *te_anc_resource = dynamic_cast<TimedEventsAncillaryResource*>(anc_resources[i]);
+
+            output_file_manager->GetTrackChildFile(track_index, te_anc_resource->stream_id, &file, &filename);
+
+            xml_writer.WriteElementStart(ns, "resource");
+            xml_writer.WriteAttribute(ns, "path", strip_path(filename));
+            if (!te_anc_resource->resource_id.empty()) {
+                xml_writer.WriteAttribute(ns, "id", te_anc_resource->resource_id);
+            }
+            xml_writer.WriteAttribute(ns, "mime_type", te_anc_resource->mime_type);
+            xml_writer.WriteElementEnd();
+        }
+
+        xml_writer.WriteElementEnd(); // ancillary_resources
+    }
+
+    if (!manifest->GetVideoViewportsAvailableExperiences().empty()) {
+        xml_writer.WriteElementStart(ns, "video_viewports");
+        xml_writer.WriteElementStart(ns, "available_experiences");
+
+        const vector<string> &experience_ids = manifest->GetVideoViewportsAvailableExperiences();
+        for (size_t i = 0; i < experience_ids.size(); i++) {
+            xml_writer.WriteElement(ns, "id", experience_ids[i]);
+        }
+
+        xml_writer.WriteElementEnd(); // video_viewports
+        xml_writer.WriteElementEnd(); // available_experiences
+    }
+
+    xml_writer.WriteElementEnd(); // manifest
+
+    xml_writer.WriteDocumentEnd();
+}
+
 static bool parse_rdd6_frames(const char *frames_str, int64_t *min, int64_t *max)
 {
     if (parse_int_pair(frames_str, '-', min, max)) {
@@ -1809,7 +1886,7 @@ static void usage(const char *cmd)
     printf(" --mca-detail          Show detailed MCA channel label information\n");
     printf("\n");
     printf(" -p | --ess-out <prefix>\n");
-    printf("                       Extract essence to files starting with <prefix> and suffix '.raw'\n");
+    printf("                       Extract essence and manifests to files starting with <prefix> and suffix '.raw', '.klv' or '.xml'\n");
     printf(" --wrap-klv <mask>     Wrap essence frames in KLV using the input Key and an 8-byte Length\n");
     printf("                       The filename suffix is '.klv' rather than '.raw'\n");
     printf("                       <mask> is a sequence of characters which identify which data types to wrap\n");
@@ -3094,7 +3171,7 @@ int main(int argc, const char** argv)
                                                            sound_buffer.GetBytes(), sound_buffer.GetAllocatedSize());
                                         sound_buffer.SetSize(frame->GetSize() / sound_info->channel_count);
                                     }
-                                    output_file_manager.GetTrackFile(i, c, &file, &filename);
+                                    output_file_manager.GetTrackChildFile(i, c, &file, &filename);
                                     write_data(file, filename,
                                                sound_buffer.GetBytes(), sound_buffer.GetSize(),
                                                (wrap_klv_mask.find(track_info->data_def) != wrap_klv_mask.end()),
@@ -3102,7 +3179,7 @@ int main(int argc, const char** argv)
                                 }
                             } else if (track_info->essence_type != TIMED_TEXT && track_info->essence_type != TIMED_EVENTS) {
                                 // timed data is written at the end
-                                output_file_manager.GetTrackFile(i, &file, &filename);
+                                output_file_manager.GetTrackMainFile(i, &file, &filename);
                                 write_data(file, filename,
                                            frame->GetBytes(), frame->GetSize(),
                                            (wrap_klv_mask.find(track_info->data_def) != wrap_klv_mask.end()),
@@ -3376,19 +3453,31 @@ int main(int argc, const char** argv)
                     continue;
                 }
 
+                TimedDataManifest *manifest = td_track_reader->GetManifest();
                 FILE *file;
                 string filename;
-                output_file_manager.GetTrackFile(i, &file, &filename);
+
+                if (track_reader->GetTrackInfo()->essence_type == TIMED_EVENTS) {
+                    TimedEventsManifest *timed_events_manifest = dynamic_cast<TimedEventsManifest*>(manifest);
+
+                    write_timed_events_manifest(timed_events_manifest, &output_file_manager, i);
+
+                    output_file_manager.GetTrackManifestFile(i, &file, &filename);
+                    log_info("Extracted %s manifest to '%s'\n",
+                             essence_type_to_string(track_reader->GetTrackInfo()->essence_type),
+                             filename.c_str());
+                }
+
+                output_file_manager.GetTrackMainFile(i, &file, &filename);
                 td_track_reader->Read(file, 0, 0);
                 log_info("Extracted %s to '%s'\n",
                          essence_type_to_string(track_reader->GetTrackInfo()->essence_type),
                          filename.c_str());
 
-                TimedDataManifest *manifest = td_track_reader->GetManifest();
                 const vector<TimedDataAncillaryResource*> &anc_resources = manifest->GetAncillaryResources();
                 size_t k;
                 for (k = 0; k < anc_resources.size(); k++) {
-                    output_file_manager.GetTrackFile(i, anc_resources[k]->stream_id, &file, &filename);
+                    output_file_manager.GetTrackChildFile(i, anc_resources[k]->stream_id, &file, &filename);
                     td_track_reader->ReadAncillaryResourceByStreamId(anc_resources[k]->stream_id, file, 0, 0);
                     log_info("Extracted %s ancillary resource to '%s'\n",
                             essence_type_to_string(track_reader->GetTrackInfo()->essence_type),
