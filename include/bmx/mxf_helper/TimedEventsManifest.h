@@ -61,7 +61,6 @@ public:
     std::string GetMIMEType() const { return mMIMEType; }
     std::string GetMIMEEncoding() const { return mMIMEEncoding; }
     const std::vector<std::string>& GetEventSchemes() const { return mEventSchemes; }
-    const std::vector<std::string>& GetVideoViewportsAvailableExperiences() const { return mVideoViewportsAvailableExperiences; }
 
 public:
     virtual void Reset();
@@ -72,7 +71,6 @@ public:
     std::string mMIMEType;
     std::string mMIMEEncoding;
     std::vector<std::string> mEventSchemes;
-    std::vector<std::string> mVideoViewportsAvailableExperiences;
 };
 
 

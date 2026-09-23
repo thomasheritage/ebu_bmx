@@ -63,7 +63,6 @@ list(APPEND MXFpp_sources
     metadata/UTF8TextBasedSet.cpp
     metadata/VBIDataDescriptor.cpp
     metadata/VC2SubDescriptor.cpp
-    metadata/VideoViewportsSubDescriptor.cpp
     metadata/WaveAudioDescriptor.cpp
 )
 
@@ -133,7 +132,6 @@ list(APPEND MXFpp_headers
     metadata/UTF8TextBasedSet.h
     metadata/VBIDataDescriptor.h
     metadata/VC2SubDescriptor.h
-    metadata/VideoViewportsSubDescriptor.cpp
     metadata/WaveAudioDescriptor.h
 )
 

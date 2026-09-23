@@ -632,7 +632,6 @@
       <xs:element name="mime_type" type="xs:string"/>
       <xs:element name="mime_encoding" type="xs:string"/>
       <xs:element name="event_schemes" type="te_event_schemes_type" minOccurs="0"/>
-      <xs:element name="viewport_experiences" type="te_viewport_experiences_type" minOccurs="0"/>
       <xs:element name="ancillary_resources" type="te_anc_resources_type" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -652,26 +651,6 @@
       <xs:extension base="array_element_type">
         <xs:sequence>
           <xs:element name="uri" type="xs:string"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="te_viewport_experiences_type">
-    <xs:complexContent>
-      <xs:extension base="array_type">
-        <xs:sequence>
-          <xs:element name="element" type="te_viewport_experiences_element_type" maxOccurs="unbounded"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="te_viewport_experiences_element_type">
-    <xs:complexContent>
-      <xs:extension base="array_element_type">
-        <xs:sequence>
-          <xs:element name="id" type="xs:string"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

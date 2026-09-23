@@ -70,7 +70,6 @@ TimedEventsManifest::TimedEventsManifest(const TimedEventsManifest &from)
     mMIMEType = from.mMIMEType;
     mMIMEEncoding = from.mMIMEEncoding;
     mEventSchemes = from.mEventSchemes;
-    mVideoViewportsAvailableExperiences = from.mVideoViewportsAvailableExperiences;
 }
 
 TimedEventsManifest::~TimedEventsManifest()
@@ -83,7 +82,6 @@ void TimedEventsManifest::Reset()
     mMIMEType.clear();
     mMIMEEncoding.clear();
     mEventSchemes.clear();
-    mVideoViewportsAvailableExperiences.clear();
 }
 
 TimedDataManifest* TimedEventsManifest::Clone() const

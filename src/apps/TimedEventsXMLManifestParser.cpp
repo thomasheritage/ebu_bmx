@@ -313,7 +313,7 @@ void TimedEventsXMLManifestParser::StartElement(const string &ns, const string &
                     throw BMXException("Failed to parse timed events start '%s'\n", start.c_str());
             }
 
-        } else if (name != "ancillary_resources" && name != "video_viewports") {
+        } else if (name != "ancillary_resources") {
             // Ignore unknown element
             element.ns = "";
             element.name = "";
@@ -390,38 +390,6 @@ void TimedEventsXMLManifestParser::StartElement(const string &ns, const string &
         return;
     }
 
-    // Parse child elements of <manifest><video_viewports>
-    if (mParseState.back().name == "video_viewports") {
-        ParseStateElement element;
-        element.ns = ns;
-        element.name = name;
-
-        if (name != "available_experiences") {
-            // Ignore unknown element
-            element.ns = "";
-            element.name = "";
-        }
-
-        mParseState.push_back(element);
-        return;
-    }
-
-    // Parse child elements of <manifest><video_viewports><available_experiences>
-    if (mParseState.back().name == "available_experiences") {
-        ParseStateElement element;
-        element.ns = ns;
-        element.name = name;
-
-        if (name != "id") {
-            // Ignore unknown element
-            element.ns = "";
-            element.name = "";
-        }
-
-        mParseState.push_back(element);
-        return;
-    }
-
     END_EXPAT_CALLBACK
 }
 
@@ -456,11 +424,6 @@ void TimedEventsXMLManifestParser::CharacterData(const char *s, int len)
         if (uri.empty())
             throw BMXException("Empty <uri> character data");
         mEventSchemes.push_back(uri);
-    } else if (mParseState.back().name == "id") {
-        string id = trim_string(string(s, len));
-        if (id.empty())
-            throw BMXException("Empty <id> character data");
-        mVideoViewportsAvailableExperiences.push_back(id);
     }
 
     END_EXPAT_CALLBACK

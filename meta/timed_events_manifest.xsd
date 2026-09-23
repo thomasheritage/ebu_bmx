@@ -10,7 +10,6 @@
       <xs:sequence>
         <xs:element name="file" type="file_type"/>
         <xs:element name="ancillary_resources" type="ancillary_resources_type" minOccurs="0"/>
-        <xs:element name="video_viewports" type="video_viewports_type" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -45,18 +44,6 @@
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="mime_type" type="xs:string" use="required"/>
-  </xs:complexType>
-
-  <xs:complexType name="video_viewports_type">
-    <xs:sequence>
-      <xs:element name="available_experiences" type="available_experiences_type" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="available_experiences_type">
-    <xs:sequence>
-      <xs:element name="id" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
   </xs:complexType>
 
   <xs:simpleType name="start_type">

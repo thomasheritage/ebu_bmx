@@ -79,17 +79,12 @@ TimedEventsManifest* TimedEventsMXFDescriptorHelper::CreateManifest(FileDescript
             for (size_t i = 0; i < sub_descriptors.size(); i++) {
                 TimedEventsAncillaryResourceSubDescriptor *anc_subdescriptor =
                     dynamic_cast<TimedEventsAncillaryResourceSubDescriptor*>(sub_descriptors[i]);
-                VideoViewportsSubDescriptor *vv_subdescriptor =
-                    dynamic_cast<VideoViewportsSubDescriptor*>(sub_descriptors[i]);
                 if (anc_subdescriptor) {
                     TimedEventsAncillaryResource *anc_resource = new TimedEventsAncillaryResource();
                     anc_resource->resource_id = anc_subdescriptor->getTimedEventsAncillaryResourceID();
                     anc_resource->mime_type   = anc_subdescriptor->getTimedEventsAncillaryResourceMIMEType();
                     anc_resource->stream_id   = anc_subdescriptor->getTimedEventsAncillaryStreamID();
                     manifest->mAncillaryResources.push_back(anc_resource);
-                } else if (vv_subdescriptor) {
-                    if (vv_subdescriptor->haveAvailableExperiencesList())
-                        manifest->mVideoViewportsAvailableExperiences = vv_subdescriptor->getAvailableExperiencesListAsVector();
                 }
             }
         }
@@ -135,12 +130,6 @@ FileDescriptor* TimedEventsMXFDescriptorHelper::CreateFileDescriptor(HeaderMetad
         anc_subdescriptor->setTimedEventsAncillaryResourceMIMEType(anc_resource->mime_type);
         anc_subdescriptor->setTimedEventsAncillaryStreamID(anc_resource->stream_id);
         mFileDescriptor->appendSubDescriptors(anc_subdescriptor);
-    }
-
-    if (!te_manifest->GetVideoViewportsAvailableExperiences().empty()) {
-        VideoViewportsSubDescriptor *vv_subdescriptor = new VideoViewportsSubDescriptor(header_metadata);
-        vv_subdescriptor->setAvailableExperiencesList(te_manifest->GetVideoViewportsAvailableExperiences());
-        mFileDescriptor->appendSubDescriptors(vv_subdescriptor);
     }
 
     UpdateFileDescriptor();

@@ -63,7 +63,6 @@ list(APPEND MXFpp_sources
     metadata/base/UTF8TextBasedSetBase.cpp
     metadata/base/VBIDataDescriptorBase.cpp
     metadata/base/VC2SubDescriptorBase.cpp
-    metadata/base/VideoViewportsSubDescriptorBase.cpp
     metadata/base/WaveAudioDescriptorBase.cpp
 )
 
@@ -132,7 +131,6 @@ list(APPEND MXFpp_headers
     metadata/base/UTF8TextBasedSetBase.h
     metadata/base/VBIDataDescriptorBase.h
     metadata/base/VC2SubDescriptorBase.h
-    metadata/base/VideoViewportsSubDescriptorBase.h
     metadata/base/WaveAudioDescriptorBase.h
 )
 

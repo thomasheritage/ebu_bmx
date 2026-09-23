@@ -122,21 +122,16 @@
         </packages>
         <data_descriptor>
           <timed_events_descriptor>
-            <mime_type>application/xml</mime_type>
+            <mime_type>text/xml</mime_type>
             <mime_encoding>UTF-8</mime_encoding>
             <event_schemes size="2">
               <element index="0">
-                <uri>http://www.smpte-ra.org/ns/2067-206/2023/event-scheme</uri>
+                <uri>http://www.example.com/props</uri>
               </element>
               <element index="1">
-                <uri>urn:broadcaster:events:viewports</uri>
+                <uri>http://www.smpte-ra.org/ns/2067-206/2023/simple-scheme</uri>
               </element>
             </event_schemes>
-            <viewport_experiences size="1">
-              <element index="0">
-                <id>X01</id>
-              </element>
-            </viewport_experiences>
           </timed_events_descriptor>
         </data_descriptor>
       </track>
@@ -163,21 +158,16 @@
         </packages>
         <data_descriptor>
           <timed_events_descriptor>
-            <mime_type>application/xml</mime_type>
+            <mime_type>text/xml</mime_type>
             <mime_encoding>UTF-8</mime_encoding>
             <event_schemes size="2">
               <element index="0">
-                <uri>http://www.smpte-ra.org/ns/2067-206/2023/event-scheme</uri>
+                <uri>http://www.example.com/props</uri>
               </element>
               <element index="1">
-                <uri>urn:broadcaster:events:viewports</uri>
+                <uri>http://www.smpte-ra.org/ns/2067-206/2023/simple-scheme</uri>
               </element>
             </event_schemes>
-            <viewport_experiences size="1">
-              <element index="0">
-                <id>X01</id>
-              </element>
-            </viewport_experiences>
           </timed_events_descriptor>
         </data_descriptor>
       </track>

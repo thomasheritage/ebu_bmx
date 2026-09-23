@@ -99,7 +99,6 @@
 #include <libMXF++/metadata/ContainerConstraintsSubDescriptor.h>
 #include <libMXF++/metadata/TimedEventsAncillaryResourceSubDescriptor.h>
 #include <libMXF++/metadata/TimedEventsTextDescriptor.h>
-#include <libMXF++/metadata/VideoViewportsSubDescriptor.h>
 
 
 #endif

@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns="http://bbc.co.uk/bmx/timed-events/202403">
-    <file path="events_example.xml.bin" mime_type="application/xml" mime_encoding="UTF-8" start="10:00:00:00">
+    <file path="events_example.xml.bin" mime_type="text/xml" mime_encoding="UTF-8" start="10:00:00:00">
         <event_schemes>
-            <uri>http://www.smpte-ra.org/ns/2067-206/2023/event-scheme</uri>
-            <uri>urn:broadcaster:events:viewports</uri>
+            <uri>http://www.example.com/props</uri>
+            <uri>http://www.smpte-ra.org/ns/2067-206/2023/simple-scheme</uri>
         </event_schemes>
     </file>
     <ancillary_resources>
         <resource path="image.png" id="first.jpg" mime_type="image/png"/>
     </ancillary_resources>
-    <video_viewports>
-        <available_experiences>
-            <id>X01</id>
-        </available_experiences>
-    </video_viewports>
 </manifest>

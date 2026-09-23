@@ -1067,16 +1067,6 @@ static void write_track_info(AppInfoWriter *info_writer, MXFReader *reader, MXFT
                     }
                     info_writer->EndArrayItem();
                 }
-                if (!timed_events_manifest->GetVideoViewportsAvailableExperiences().empty()) {
-                    const vector<string> &experience_ids = timed_events_manifest->GetVideoViewportsAvailableExperiences();
-                    info_writer->StartArrayItem("viewport_experiences", experience_ids.size());
-                    for (size_t i = 0; i < experience_ids.size(); i++) {
-                        info_writer->StartArrayElement("element", i);
-                        info_writer->WriteStringItem("id", experience_ids[i]);
-                        info_writer->EndArrayElement();
-                    }
-                    info_writer->EndArrayItem();
-                }
                 if (!timed_events_manifest->GetAncillaryResources().empty()) {
                     const vector<TimedDataAncillaryResource*> &anc_resources =
                         timed_events_manifest->GetAncillaryResources();
@@ -1723,19 +1713,6 @@ static void write_timed_events_manifest(TimedEventsManifest *manifest, OutputFil
         }
 
         xml_writer.WriteElementEnd(); // ancillary_resources
-    }
-
-    if (!manifest->GetVideoViewportsAvailableExperiences().empty()) {
-        xml_writer.WriteElementStart(ns, "video_viewports");
-        xml_writer.WriteElementStart(ns, "available_experiences");
-
-        const vector<string> &experience_ids = manifest->GetVideoViewportsAvailableExperiences();
-        for (size_t i = 0; i < experience_ids.size(); i++) {
-            xml_writer.WriteElement(ns, "id", experience_ids[i]);
-        }
-
-        xml_writer.WriteElementEnd(); // video_viewports
-        xml_writer.WriteElementEnd(); // available_experiences
     }
 
     xml_writer.WriteElementEnd(); // manifest
