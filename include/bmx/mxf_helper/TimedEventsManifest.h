@@ -59,7 +59,7 @@ public:
     virtual ~TimedEventsManifest();
 
     std::string GetMIMEType() const { return mMIMEType; }
-    std::string GetMIMEEncoding() const { return mMIMEEncoding; }
+    std::string GetCharacterEncoding() const { return mCharacterEncoding; }
     const std::vector<std::string>& GetEventSchemes() const { return mEventSchemes; }
 
 public:
@@ -69,7 +69,7 @@ public:
 
 public:
     std::string mMIMEType;
-    std::string mMIMEEncoding;
+    std::string mCharacterEncoding;
     std::vector<std::string> mEventSchemes;
 };
 

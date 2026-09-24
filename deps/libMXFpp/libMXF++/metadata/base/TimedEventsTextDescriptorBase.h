@@ -48,13 +48,13 @@ public:
     virtual ~TimedEventsTextDescriptorBase();
 
     // getters
-    std::string getTextMIMEEncoding() const;
+    std::string getTextCharacterEncoding() const;
     std::string getTextMIMEType() const;
     std::string getEventSchemeURIs() const;
     std::vector<std::string> getEventSchemeURIsAsVector() const;
 
     // setters
-    void setTextMIMEEncoding(const std::string &value);
+    void setTextCharacterEncoding(const std::string &value);
     void setTextMIMEType(const std::string &value);
     void setEventSchemeURIs(const std::string &value);
     void setEventSchemeURIs(const std::vector<std::string> &value);

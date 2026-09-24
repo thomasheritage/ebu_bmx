@@ -630,7 +630,7 @@
   <xs:complexType name="timed_events_descriptor_type">
     <xs:sequence>
       <xs:element name="mime_type" type="xs:string"/>
-      <xs:element name="mime_encoding" type="xs:string"/>
+      <xs:element name="character_encoding" type="xs:string"/>
       <xs:element name="event_schemes" type="te_event_schemes_type" minOccurs="0"/>
       <xs:element name="ancillary_resources" type="te_anc_resources_type" minOccurs="0"/>
     </xs:sequence>

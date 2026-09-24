@@ -65,9 +65,9 @@ string TimedEventsAncillaryResourceSubDescriptorBase::getTimedEventsAncillaryRes
     return getStringItem(&MXF_ITEM_K(TimedEventsAncillaryResourceSubDescriptor, TimedEventsAncillaryResourceMIMEType));
 }
 
-uint32_t TimedEventsAncillaryResourceSubDescriptorBase::getTimedEventsAncillaryStreamID() const
+uint32_t TimedEventsAncillaryResourceSubDescriptorBase::getTimedEventsAncillaryResourceStreamID() const
 {
-    return getUInt32Item(&MXF_ITEM_K(TimedEventsAncillaryResourceSubDescriptor, TimedEventsAncillaryStreamID));
+    return getUInt32Item(&MXF_ITEM_K(TimedEventsAncillaryResourceSubDescriptor, TimedEventsAncillaryResourceStreamID));
 }
 
 void TimedEventsAncillaryResourceSubDescriptorBase::setTimedEventsAncillaryResourceID(const string &value)
@@ -80,7 +80,7 @@ void TimedEventsAncillaryResourceSubDescriptorBase::setTimedEventsAncillaryResou
     setStringItem(&MXF_ITEM_K(TimedEventsAncillaryResourceSubDescriptor, TimedEventsAncillaryResourceMIMEType), value);
 }
 
-void TimedEventsAncillaryResourceSubDescriptorBase::setTimedEventsAncillaryStreamID(uint32_t value)
+void TimedEventsAncillaryResourceSubDescriptorBase::setTimedEventsAncillaryResourceStreamID(uint32_t value)
 {
-    setUInt32Item(&MXF_ITEM_K(TimedEventsAncillaryResourceSubDescriptor, TimedEventsAncillaryStreamID), value);
+    setUInt32Item(&MXF_ITEM_K(TimedEventsAncillaryResourceSubDescriptor, TimedEventsAncillaryResourceStreamID), value);
 }

@@ -58,9 +58,9 @@ TimedEventsTextDescriptorBase::TimedEventsTextDescriptorBase(HeaderMetadata *hea
 TimedEventsTextDescriptorBase::~TimedEventsTextDescriptorBase()
 {}
 
-string TimedEventsTextDescriptorBase::getTextMIMEEncoding() const
+string TimedEventsTextDescriptorBase::getTextCharacterEncoding() const
 {
-    return getStringItem(&MXF_ITEM_K(TimedEventsTextDescriptor, TextMIMEEncoding));
+    return getStringItem(&MXF_ITEM_K(TimedEventsTextDescriptor, TextCharacterEncoding));
 }
 
 string TimedEventsTextDescriptorBase::getTextMIMEType() const
@@ -78,9 +78,9 @@ vector<string> TimedEventsTextDescriptorBase::getEventSchemeURIsAsVector() const
     return split_string(getEventSchemeURIs(), ' ', false, true);
 }
 
-void TimedEventsTextDescriptorBase::setTextMIMEEncoding(const string &value)
+void TimedEventsTextDescriptorBase::setTextCharacterEncoding(const string &value)
 {
-    setStringItem(&MXF_ITEM_K(TimedEventsTextDescriptor, TextMIMEEncoding), value);
+    setStringItem(&MXF_ITEM_K(TimedEventsTextDescriptor, TextCharacterEncoding), value);
 }
 
 void TimedEventsTextDescriptorBase::setTextMIMEType(const string &value)

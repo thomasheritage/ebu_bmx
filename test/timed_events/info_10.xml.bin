@@ -118,7 +118,7 @@
         <data_descriptor>
           <timed_events_descriptor>
             <mime_type>text/xml</mime_type>
-            <mime_encoding>UTF-8</mime_encoding>
+            <character_encoding>UTF-8</character_encoding>
             <event_schemes size="2">
               <element index="0">
                 <uri>http://www.example.com/props</uri>

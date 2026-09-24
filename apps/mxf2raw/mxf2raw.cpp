@@ -1056,7 +1056,7 @@ static void write_track_info(AppInfoWriter *info_writer, MXFReader *reader, MXFT
             } else if (timed_events_manifest) {
                 info_writer->StartSection("timed_events_descriptor");
                 info_writer->WriteStringItem("mime_type", timed_events_manifest->GetMIMEType());
-                info_writer->WriteStringItem("mime_encoding", timed_events_manifest->GetMIMEEncoding());
+                info_writer->WriteStringItem("character_encoding", timed_events_manifest->GetCharacterEncoding());
                 if (!timed_events_manifest->GetEventSchemes().empty()) {
                     const vector<string> &event_schemes = timed_events_manifest->GetEventSchemes();
                     info_writer->StartArrayItem("event_schemes", event_schemes.size());
@@ -1680,7 +1680,7 @@ static void write_timed_events_manifest(TimedEventsManifest *manifest, OutputFil
 
     xml_writer.WriteAttribute(ns, "path", strip_path(filename));
     xml_writer.WriteAttribute(ns, "mime_type", manifest->GetMIMEType());
-    xml_writer.WriteAttribute(ns, "mime_encoding", manifest->GetMIMEEncoding());
+    xml_writer.WriteAttribute(ns, "character_encoding", manifest->GetCharacterEncoding());
     if (manifest->GetStart() != 0) {
         char buffer[32];
         bmx_snprintf(buffer, sizeof(buffer), "%" PRId64, manifest->GetStart());

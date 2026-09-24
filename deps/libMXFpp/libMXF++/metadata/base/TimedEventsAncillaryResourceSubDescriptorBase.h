@@ -52,12 +52,12 @@ public:
     // getters
     std::string getTimedEventsAncillaryResourceID() const;
     std::string getTimedEventsAncillaryResourceMIMEType() const;
-    uint32_t getTimedEventsAncillaryStreamID() const;
+    uint32_t getTimedEventsAncillaryResourceStreamID() const;
 
     // setters
     void setTimedEventsAncillaryResourceID(const std::string &value);
     void setTimedEventsAncillaryResourceMIMEType(const std::string &value);
-    void setTimedEventsAncillaryStreamID(uint32_t value);
+    void setTimedEventsAncillaryResourceStreamID(uint32_t value);
 
 protected:
     TimedEventsAncillaryResourceSubDescriptorBase(HeaderMetadata *headerMetadata, ::MXFMetadataSet *cMetadataSet);

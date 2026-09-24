@@ -20,7 +20,7 @@
     </xs:sequence>
     <xs:attribute name="path" type="xs:string" use="required"/>
     <xs:attribute name="mime_type" type="xs:string" use="required"/>
-    <xs:attribute name="mime_encoding" type="xs:string" use="required"/>
+    <xs:attribute name="character_encoding" type="xs:string" use="required"/>
     <xs:attribute name="start" type="start_type" use="optional"/>
   </xs:complexType>
 

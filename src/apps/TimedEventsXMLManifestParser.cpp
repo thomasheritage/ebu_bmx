@@ -306,7 +306,7 @@ void TimedEventsXMLManifestParser::StartElement(const string &ns, const string &
                 throw BMXException("Failed to create absolute path for timed events file '%s'", path.c_str());
 
             mMIMEType = get_attribute(name, "mime_type", atts);
-            mMIMEEncoding = get_attribute(name, "mime_encoding", atts);
+            mCharacterEncoding = get_attribute(name, "character_encoding", atts);
 
             if (have_attribute("start", atts)) {
                 string start = get_attribute(name, "start", atts);

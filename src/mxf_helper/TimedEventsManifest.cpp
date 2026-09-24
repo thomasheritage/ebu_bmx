@@ -68,7 +68,7 @@ TimedEventsManifest::TimedEventsManifest(const TimedEventsManifest &from)
 : TimedDataManifest(from)
 {
     mMIMEType = from.mMIMEType;
-    mMIMEEncoding = from.mMIMEEncoding;
+    mCharacterEncoding = from.mCharacterEncoding;
     mEventSchemes = from.mEventSchemes;
 }
 
@@ -80,7 +80,7 @@ void TimedEventsManifest::Reset()
 {
     TimedDataManifest::Reset();
     mMIMEType.clear();
-    mMIMEEncoding.clear();
+    mCharacterEncoding.clear();
     mEventSchemes.clear();
 }
 

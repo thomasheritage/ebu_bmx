@@ -71,7 +71,7 @@ TimedEventsManifest* TimedEventsMXFDescriptorHelper::CreateManifest(FileDescript
     try
     {
         manifest->mMIMEType = te_descriptor->getTextMIMEType();
-        manifest->mMIMEEncoding = te_descriptor->getTextMIMEEncoding();
+        manifest->mCharacterEncoding = te_descriptor->getTextCharacterEncoding();
         manifest->mEventSchemes = te_descriptor->getEventSchemeURIsAsVector();
 
         if (te_descriptor->haveSubDescriptors()) {
@@ -83,7 +83,7 @@ TimedEventsManifest* TimedEventsMXFDescriptorHelper::CreateManifest(FileDescript
                     TimedEventsAncillaryResource *anc_resource = new TimedEventsAncillaryResource();
                     anc_resource->resource_id = anc_subdescriptor->getTimedEventsAncillaryResourceID();
                     anc_resource->mime_type   = anc_subdescriptor->getTimedEventsAncillaryResourceMIMEType();
-                    anc_resource->stream_id   = anc_subdescriptor->getTimedEventsAncillaryStreamID();
+                    anc_resource->stream_id   = anc_subdescriptor->getTimedEventsAncillaryResourceStreamID();
                     manifest->mAncillaryResources.push_back(anc_resource);
                 }
             }
@@ -128,7 +128,7 @@ FileDescriptor* TimedEventsMXFDescriptorHelper::CreateFileDescriptor(HeaderMetad
         TimedEventsAncillaryResource *anc_resource = dynamic_cast<TimedEventsAncillaryResource*>(te_manifest->GetAncillaryResources()[i]);
         anc_subdescriptor->setTimedEventsAncillaryResourceID(anc_resource->resource_id);
         anc_subdescriptor->setTimedEventsAncillaryResourceMIMEType(anc_resource->mime_type);
-        anc_subdescriptor->setTimedEventsAncillaryStreamID(anc_resource->stream_id);
+        anc_subdescriptor->setTimedEventsAncillaryResourceStreamID(anc_resource->stream_id);
         mFileDescriptor->appendSubDescriptors(anc_subdescriptor);
     }
 
@@ -148,7 +148,7 @@ void TimedEventsMXFDescriptorHelper::UpdateFileDescriptor()
     BMX_ASSERT(te_descriptor);
 
     te_descriptor->setTextMIMEType(te_manifest->GetMIMEType());
-    te_descriptor->setTextMIMEEncoding(te_manifest->GetMIMEEncoding());
+    te_descriptor->setTextCharacterEncoding(te_manifest->GetCharacterEncoding());
     te_descriptor->setEventSchemeURIs(te_manifest->GetEventSchemes());
 }
 
