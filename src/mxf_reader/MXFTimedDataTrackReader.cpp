@@ -152,7 +152,7 @@ void MXFTimedDataTrackReader::ReadTimedEventsAncillaryResourceById(const string 
                                                                    unsigned char **data_out, size_t *size_out)
 {
     if (mTrackInfo->essence_type != TIMED_EVENTS) {
-        BMX_EXCEPTION(("Timed events track cannot have timed text ancillary resources. Use ReadTimedTextAncillaryResourceById instead"));
+        BMX_EXCEPTION(("Timed text track cannot have timed events ancillary resources. Use ReadTimedTextAncillaryResourceById instead"));
     }
 
     uint32_t stream_id = 0;

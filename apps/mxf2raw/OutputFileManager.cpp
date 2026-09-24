@@ -142,7 +142,7 @@ void OutputFileManager::AddTrackFile(size_t track_index, const MXFTrackInfo *tra
         file_info.filename = mPrefix + buffer;
         file_info.file = fopen(file_info.filename.c_str(), "wb");
         if (!file_info.file) {
-            log_error("Failed to open main timed text file '%s': %s\n",
+            log_error("Failed to open main timed data file '%s': %s\n",
                       file_info.filename.c_str(), bmx_strerror(errno).c_str());
             throw false;
         }
@@ -157,7 +157,7 @@ void OutputFileManager::AddTrackFile(size_t track_index, const MXFTrackInfo *tra
             file_info.filename = mPrefix + buffer;
             file_info.file = fopen(file_info.filename.c_str(), "wb");
             if (!file_info.file) {
-                log_error("Failed to open timed text ancillary resource file '%s': %s\n",
+                log_error("Failed to open timed data ancillary resource file '%s': %s\n",
                           file_info.filename.c_str(), bmx_strerror(errno).c_str());
                 throw false;
             }
