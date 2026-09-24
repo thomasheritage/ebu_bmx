@@ -1905,8 +1905,8 @@ static void usage(const char *cmd)
         printf(" --http-disable-seek   Disable seeking when reading file over HTTP\n");
     }
     printf("\n");
-    printf(" --text-out <prefix>   Extract text based objects to files starting with <prefix>\n");
-    printf("                       and suffix '.xml' if it is XML and otherwise '.txt'\n");
+    printf(" --text-out <prefix>   Extract text based objects (SMPTE RP 2057) to files starting with <prefix>\n");
+    printf("                       The file suffix is '.xml' for XML (based on TextMIMEMediaType) and '.txt' otherwise\n");
     printf(" --wave-chunks-out <prefix>   Extract Wave chunks to files starting with <prefix>\n");
     printf("                              The file suffix is '_<chunk id>_<generic stream id>'\n");
     printf(" --filter-wave-chunks <ids>   A comma separated list of Wave chunk identifiers to extract\n");
