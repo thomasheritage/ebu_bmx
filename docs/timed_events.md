@@ -127,12 +127,12 @@ The Timed Events tracks will have metadata shown similar to the extract below (p
               stream_id       : 12
 ```
 
-Using the `--ess-out` or `-p` option will extract a [manifest file](#manifest-file-format), the text-based metadata document and any ancillary resource files. The file listing example shown below is the result of a run of `mxf2raw -p output DATA_5f4e2ac6-0572-4c23-93ce-9950da333223.mxf`.
+Using the `--ess-out` or `-p` option will create a [manifest file](#manifest-file-format), and extract the text-based metadata document and any ancillary resource files. The file listing example shown below is the result of a run of `mxf2raw -p output DATA_5f4e2ac6-0572-4c23-93ce-9950da333223.mxf`.
 
 ```
 output_d0_manifest.xml
-output_d0.xml
+output_d0.txt
 output_d0_12.raw
 ```
 
-The listed files are for the first MXF data track (`d0`). The manifest is stored in `output_d0_manifest.xml`, the text-based metadata document is `output_d0.xml` and the image resource is `output_d0_12.raw` (which was stored in the MXF generic stream `12`). The [manifest file](#manifest-file-format) can be used to re-wrap the Timed Events into a new MXF file using `raw2bmx`.
+The listed files are for the first MXF data track (`d0`). The manifest is stored in `output_d0_manifest.xml`, the text-based metadata document is `output_d0.txt` and the image resource is `output_d0_12.raw` (which was stored in the MXF generic stream `12`). The [manifest file](#manifest-file-format) can be used to re-wrap the Timed Events into a new MXF file using `raw2bmx`.

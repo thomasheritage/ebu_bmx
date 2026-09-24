@@ -136,7 +136,11 @@ void OutputFileManager::AddTrackFile(size_t track_index, const MXFTrackInfo *tra
             }
         }
 
-        bmx_snprintf(buffer, sizeof(buffer), "_%s%u.xml", ddef_letter, ddef_count);
+        if (track_info->essence_type == TIMED_TEXT) {
+            bmx_snprintf(buffer, sizeof(buffer), "_%s%u.xml", ddef_letter, ddef_count);
+        } else {
+            bmx_snprintf(buffer, sizeof(buffer), "_%s%u.txt", ddef_letter, ddef_count);
+        }
 
         FileInfo &file_info = mTrackFiles[track_index].main;
         file_info.filename = mPrefix + buffer;

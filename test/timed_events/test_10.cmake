@@ -28,5 +28,5 @@ run_test_a(
     "${output_file}"
     "test_10.md5"
     "${output_info_file};info_10.xml.bin"
-    "${output_essence_file_prefix}_d0.xml;events_example.xml.bin"
+    "${output_essence_file_prefix}_d0.txt;events_example.xml.bin"
 )

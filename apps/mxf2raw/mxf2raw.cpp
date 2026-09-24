@@ -1863,7 +1863,16 @@ static void usage(const char *cmd)
     printf(" --mca-detail          Show detailed MCA channel label information\n");
     printf("\n");
     printf(" -p | --ess-out <prefix>\n");
-    printf("                       Extract essence and manifests to files starting with <prefix> and suffix '.raw', '.klv' or '.xml'\n");
+    printf("                       Extract essence to files starting with <prefix> and suffix '.raw' or '.klv'\n");
+    printf("                       Exceptions:\n");
+    printf("                           Timed Text\n");
+    printf("                             - Extract the Timed Text XML document to a file starting with <prefix> and suffix '.xml'\n");
+    printf("                             - Extract each ancillary resource to a file starting with <prefix> and suffix '_<generic stream id>.raw'\n");
+    printf("                           Timed Events\n");
+    printf("                             - Extract the text-based metadata document to a file starting with <prefix> and suffix '.txt'\n");
+    printf("                             - Extract each ancillary resource to a file starting with <prefix> and suffix '_<generic stream id>.raw'\n");
+    printf("                             - Write a manifest to a file starting with <prefix> and suffix '_manifest.xml'\n");
+    printf("                               This file is suitable for use with the raw2bmx option --timed-events\n");
     printf(" --wrap-klv <mask>     Wrap essence frames in KLV using the input Key and an 8-byte Length\n");
     printf("                       The filename suffix is '.klv' rather than '.raw'\n");
     printf("                       <mask> is a sequence of characters which identify which data types to wrap\n");
@@ -3440,7 +3449,7 @@ int main(int argc, const char** argv)
                     write_timed_events_manifest(timed_events_manifest, &output_file_manager, i);
 
                     output_file_manager.GetTrackManifestFile(i, &file, &filename);
-                    log_info("Extracted %s manifest to '%s'\n",
+                    log_info("Written %s manifest to '%s'\n",
                              essence_type_to_string(track_reader->GetTrackInfo()->essence_type),
                              filename.c_str());
                 }
