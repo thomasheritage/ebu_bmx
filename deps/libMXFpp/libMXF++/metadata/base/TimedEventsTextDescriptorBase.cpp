@@ -95,12 +95,14 @@ void TimedEventsTextDescriptorBase::setEventSchemeURIs(const string &value)
 
 void TimedEventsTextDescriptorBase::setEventSchemeURIs(const vector<string> &value)
 {
-    // Concatenate values into a string using a space as a separator. Convert spaces in the URIs to %20.
+    // Concatenate values into a string using a space as a separator.
+    // Note: SMPTE ST 2067-206 states: "An Event Scheme URI shall not include the space character"
+
     string str_value;
     for (size_t i = 0; i < value.size(); i++) {
         if (i > 0)
             str_value += " ";
-        str_value += regex_replace(value[i], regex(" "), "%20");
+        str_value += value[i];
     }
 
     setEventSchemeURIs(str_value);

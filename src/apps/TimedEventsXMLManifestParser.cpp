@@ -35,6 +35,7 @@
 
 #include <stdio.h>
 #include <expat.h>
+#include <regex>
 
 #include <bmx/URI.h>
 #include <bmx/Utils.h>
@@ -423,6 +424,9 @@ void TimedEventsXMLManifestParser::CharacterData(const char *s, int len)
         string uri = trim_string(string(s, len));
         if (uri.empty())
             throw BMXException("Empty <uri> character data");
+        if (regex_search(uri, regex(" ")))
+            // Note: SMPTE ST 2067-206 states: "An Event Scheme URI shall not include the space character"
+            throw BMXException("<uri> character data contains a space character after trimming: an Event Scheme URI shall not include the space character (SMPTE ST 2067-206)");
         mEventSchemes.push_back(uri);
     }
 
