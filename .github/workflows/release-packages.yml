@@ -1,0 +1,26 @@
+name: Release Packages
+on:
+  push:
+jobs:
+  binary_release:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: windows
+            os: windows-2022
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Win64 binary release
+        if: ${{ contains(matrix.name, 'windows') }}
+        shell: bash
+        run: cmake -P release/win64_binary_release.cmake
+      - name: Upload binary release
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-release-${{ matrix.name }}
+          path: |
+            ./out/package/*.zip
